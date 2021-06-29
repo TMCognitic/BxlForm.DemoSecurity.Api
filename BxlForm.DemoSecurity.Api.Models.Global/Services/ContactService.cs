@@ -14,7 +14,15 @@ namespace BxlForm.DemoSecurity.Api.Models.Global.Services
         public ContactService(Connection connection)
         {
             _connection = connection;
-        }      
+        }
+
+        public IEnumerable<Contact> GetByCategory(int userId, int categoryId)
+        {
+            Command command = new Command("Select Id, LastName, FirstName, Email, CategoryId, UserId From Contact Where UserId = @UserId and CategoryId = @CategoryId;", false);
+            command.AddParameter("UserId", userId);
+            command.AddParameter("CategoryId", categoryId);
+            return _connection.ExecuteReader(command, dr => dr.ToContact());
+        }
 
         public IEnumerable<Contact> Get(int userId)
         {
@@ -45,7 +53,7 @@ namespace BxlForm.DemoSecurity.Api.Models.Global.Services
 
         public void Update(int id, Contact contact)
         {
-            Command command = new Command("BFSP_UdpateContact", true);
+            Command command = new Command("BFSP_UpdateContact", true);
             command.AddParameter("Id", id);
             command.AddParameter("LastName", contact.LastName);
             command.AddParameter("FirstName", contact.FirstName);
@@ -63,6 +71,6 @@ namespace BxlForm.DemoSecurity.Api.Models.Global.Services
             command.AddParameter("UserId", userId);
 
             _connection.ExecuteNonQuery(command);
-        }
+        }        
     }
 }

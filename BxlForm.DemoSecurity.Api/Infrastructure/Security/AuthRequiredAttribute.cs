@@ -37,6 +37,8 @@ namespace BxlForm.DemoSecurity.Api.Infrastructure.Security
                     context.Result = new UnauthorizedResult();
                     return;
                 }
+
+                context.RouteData.Values["userId"] = user.Id;
             }
         }
     }

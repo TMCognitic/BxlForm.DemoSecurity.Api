@@ -40,5 +40,10 @@ namespace BxlForm.DemoSecurity.Api.Models.Client.Services
         {
             _globalRepository.Delete(userId, id);
         }
+
+        public IEnumerable<Contact> GetByCategory(int userId, int categoryId)
+        {
+            return _globalRepository.GetByCategory(userId, categoryId).Select(c => c.ToClient());
+        }
     }
 }
